@@ -199,9 +199,24 @@ export default function TeacherDashboard() {
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
               <p className="text-xs sm:text-sm text-gray-600">Welcome, {session?.user?.name}</p>
             </div>
-            <Button variant="outline" size="sm" onClick={() => signOut({ callbackUrl: '/login' })} className="text-xs sm:text-sm">
-              Logout
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => router.push('/teacher/attendance-history')}
+                className="text-xs sm:text-sm"
+              >
+                View History
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => signOut({ callbackUrl: '/login' })} 
+                className="text-xs sm:text-sm"
+              >
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>

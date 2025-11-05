@@ -72,6 +72,80 @@ const BTECHSubjects = [
   { courseCode: 'BTCS801-18', courseTitle: 'Semester Training', courseType: 'Professional Core Courses', branch: 'BTCS', semester: 8, credits: 16, internalMarks: 300, externalMarks: 200, totalMarks: 500, isLab: false, isElective: false },
 ];
 
+const BCASubjects = [
+  // Semester 1
+  { courseCode: 'UGCC2501', courseTitle: 'Mathematics', courseType: 'Core Course (CC)', branch: 'BCA', semester: 1, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGSEC2501', courseTitle: 'Problem Solving Techniques', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 1, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGSEC2502', courseTitle: 'Problem Solving Techniques Laboratory', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 1, credits: 2, isLab: true, isElective: false },
+  { courseCode: 'UGCC2502', courseTitle: 'Computer Architecture', courseType: 'Core Course (CC)', branch: 'BCA', semester: 1, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2503', courseTitle: 'Office Automation', courseType: 'Core Course (CC)', branch: 'BCA', semester: 1, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGAEC2501', courseTitle: 'General English  - I', courseType: 'Ability Enhancement Course (AEC)', branch: 'BCA', semester: 1, credits: 2, isLab: false, isElective: false },
+  { courseCode: 'UGMDE2501', courseTitle: 'Indian Knowledge System', courseType: 'Multi-Disciplinary Elective (MDE)', branch: 'BCA', semester: 1, credits: 1, isLab: false, isElective: true },
+  { courseCode: 'UGVAC2501', courseTitle: 'Environmental Science and Sustainability', courseType: 'Value Added Course (VAC)', branch: 'BCA', semester: 1, credits: 2, isLab: false, isElective: false },
+  { courseCode: 'HVPE101-18', courseTitle: 'Human Values, De-addiction and Traffic Rules', courseType: 'Core Course (CC)', branch: 'BCA', semester: 1, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'HVPE102-18', courseTitle: 'Human Values, De-addiction and Traffic Rules (Lab/Seminar)', courseType: 'Core Course (CC)', branch: 'BCA', semester: 1, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGAEC2502', courseTitle: 'Additional Indian/Foreign Language (Optional)', courseType: 'Ability Enhancement Course (AEC)', branch: 'BCA', semester: 1, credits: 1, isLab: false, isElective: true },
+  // Semester 2
+  { courseCode: 'UGCC2504', courseTitle: 'Fundamentals of Statistics', courseType: 'Core Course (CC)', branch: 'BCA', semester: 2, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2505', courseTitle: 'Fundamentals of Statistics Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 2, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGCC2506', courseTitle: 'Data Structures  - I', courseType: 'Core Course (CC)', branch: 'BCA', semester: 2, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2507', courseTitle: 'Data Structures  - I Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 2, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGCC2508', courseTitle: 'Operating Systems', courseType: 'Core Course (CC)', branch: 'BCA', semester: 2, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2509', courseTitle: 'Operating Systems Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 2, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGSEC2503', courseTitle: 'Object Oriented Programming using C++', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 2, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGSEC2504', courseTitle: 'Object Oriented Programming using C++ Laboratory', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 2, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGSEC2505', courseTitle: 'Web Technologies', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 2, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGSEC2506', courseTitle: 'Web Technologies Laboratory', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 2, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'EMC-101-25', courseTitle: 'Entrepreneurship Setup and Launch', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 2, credits: 2, isLab: true, isElective: false },
+  { courseCode: 'UGVAC2502', courseTitle: 'Indian Constitution', courseType: 'Value Added Course (VAC)', branch: 'BCA', semester: 2, credits: 1, isLab: false, isElective: false },
+  { courseCode: 'UGAEC2503', courseTitle: 'Additional Indian/Foreign Language (Optional)', courseType: 'Ability Enhancement Course (AEC)', branch: 'BCA', semester: 2, credits: 1, isLab: false, isElective: true },
+  // Semester 3
+  { courseCode: 'UGCC2510', courseTitle: 'Data Structures  - II', courseType: 'Core Course (CC)', branch: 'BCA', semester: 3, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2511', courseTitle: 'Data Structures  - II Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 3, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGCC2512', courseTitle: 'Database Management System  - I', courseType: 'Core Course (CC)', branch: 'BCA', semester: 3, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2513', courseTitle: 'Database Management System  - I Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 3, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGSEC2507', courseTitle: 'Python Programming', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 3, credits: 2, isLab: false, isElective: false },
+  { courseCode: 'UGSEC2508', courseTitle: 'Python Programming Laboratory', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 3, credits: 2, isLab: true, isElective: false },
+  { courseCode: 'UGCC2514', courseTitle: 'Software Engineering', courseType: 'Core Course (CC)', branch: 'BCA', semester: 3, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2515', courseTitle: 'Software Engineering Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 3, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'BCA-PE-I', courseTitle: 'Professional Elective  - I', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 3, credits: 3, isLab: false, isElective: true },
+  { courseCode: 'BCA-PE-I-LAB', courseTitle: 'Professional Elective  - I Laboratory', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 3, credits: 1, isLab: true, isElective: true },
+  { courseCode: 'UGVAC2503', courseTitle: 'Yoga/Sports/NCC/NSS/Disaster Management', courseType: 'Value Added Course (VAC)', branch: 'BCA', semester: 3, credits: 1, isLab: true, isElective: false },
+  // Semester 4
+  { courseCode: 'UGCC2516', courseTitle: 'Entrepreneurship and Startup Ecosystem', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 2, isLab: false, isElective: false },
+  { courseCode: 'UGCC2517', courseTitle: 'Computer Networks  - I', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2518', courseTitle: 'Computer Networks  - I Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGCC2519', courseTitle: 'Design and Analysis of Algorithms', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2520', courseTitle: 'Design and Analysis of Algorithms Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGCC2521', courseTitle: 'Artificial Intelligence', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2522', courseTitle: 'Artificial Intelligence Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGCC2523', courseTitle: 'Database Management System  - II', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2524', courseTitle: 'Database Management System  - II Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 4, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'BCA-PE-II', courseTitle: 'Professional Elective  - II', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 4, credits: 3, isLab: false, isElective: true },
+  { courseCode: 'BCA-PE-II-LAB', courseTitle: 'Professional Elective  - II Laboratory', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 4, credits: 1, isLab: true, isElective: true },
+  { courseCode: 'UGSEC2509', courseTitle: 'Design Thinking and Innovation', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 4, credits: 1, isLab: false, isElective: false },
+  // Semester 5
+  { courseCode: 'UGCC2525', courseTitle: 'Computer Networks  - II', courseType: 'Core Course (CC)', branch: 'BCA', semester: 5, credits: 3, isLab: false, isElective: false },
+  { courseCode: 'UGCC2526', courseTitle: 'Computer Networks   II Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 5, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'BCA-PE-III', courseTitle: 'Professional Elective   III', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 5, credits: 3, isLab: false, isElective: true },
+  { courseCode: 'BCA-PE-III-LAB', courseTitle: 'Professional Elective  - III Laboratory', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 5, credits: 1, isLab: true, isElective: true },
+  { courseCode: 'BCA-PE-IV', courseTitle: 'Professional Elective  - IV', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 5, credits: 3, isLab: false, isElective: true },
+  { courseCode: 'BCA-PE-IV-LAB', courseTitle: 'Professional Elective  - IV Laboratory', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 5, credits: 1, isLab: true, isElective: true },
+  { courseCode: 'BCA-PE-V', courseTitle: 'Professional Elective  - V', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 5, credits: 3, isLab: false, isElective: true },
+  { courseCode: 'BCA-PE-V-LAB', courseTitle: 'Professional Elective  - V Laboratory', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 5, credits: 1, isLab: true, isElective: true },
+  { courseCode: 'UGSEC2510', courseTitle: 'Internship/Capstone Project', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 5, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'UGSEC2511', courseTitle: 'Minor Project', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 5, credits: 2, isLab: true, isElective: false },
+  // Semester 6
+  { courseCode: 'UGCC2527', courseTitle: 'Cyber Security', courseType: 'Core Course (CC)', branch: 'BCA', semester: 6, credits: 2, isLab: false, isElective: false },
+  { courseCode: 'UGCC2528', courseTitle: 'Cyber Security Laboratory', courseType: 'Core Course (CC)', branch: 'BCA', semester: 6, credits: 1, isLab: true, isElective: false },
+  { courseCode: 'BCA-PE-VI', courseTitle: 'Professional Elective  - VI', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 6, credits: 3, isLab: false, isElective: true },
+  { courseCode: 'BCA-PE-VI-LAB', courseTitle: 'Professional Elective  - VI Laboratory', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 6, credits: 1, isLab: true, isElective: true },
+  { courseCode: 'BCA-PE-VII', courseTitle: 'Professional Elective  - VII', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 6, credits: 3, isLab: false, isElective: true },
+  { courseCode: 'BCA-PE-VII-LAB', courseTitle: 'Professional Elective  - VII Laboratory', courseType: 'Discipline Specific Elective (DSE)', branch: 'BCA', semester: 6, credits: 1, isLab: true, isElective: true },
+  { courseCode: 'UGAEC2504', courseTitle: 'Soft Skills', courseType: 'Ability Enhancement Course (AEC)', branch: 'BCA', semester: 6, credits: 1, isLab: false, isElective: false },
+  { courseCode: 'UGSEC2512', courseTitle: 'Major Project', courseType: 'Skill Enhancement Course (SEC)', branch: 'BCA', semester: 6, credits: 4, isLab: true, isElective: false },
+];
+
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ikgptu_attendance';
 
@@ -154,9 +228,10 @@ async function seedSubjects() {
 
     // Create subjects for all branches
     const allSubjects = [];
-    const branches = ['BTCS', 'BTAI']; // Both tech branches get the same subjects
     
-    branches.forEach(branch => {
+    // Add BTECH subjects for BTCS and BTAI branches
+    const btechBranches = ['BTCS', 'BTAI'];
+    btechBranches.forEach(branch => {
       const branchSubjects = BTECHSubjects.map(subject => ({
         ...subject,
         branch: branch
@@ -164,8 +239,11 @@ async function seedSubjects() {
       allSubjects.push(...branchSubjects);
     });
 
+    // Add BCA subjects
+    allSubjects.push(...BCASubjects);
+
     // Insert all subjects
-    console.log('📚 Inserting subjects for BTCS and BTAI branches...');
+    console.log('📚 Inserting subjects for BTCS, BTAI, and BCA branches...');
     const insertedSubjects = await Subject.insertMany(allSubjects);
     console.log(`✅ Successfully inserted ${insertedSubjects.length} subjects`);
 
