@@ -4,6 +4,8 @@ import connectDB from '@/lib/db/mongodb';
 import Attendance from '@/models/Attendance';
 import { calculateAttendancePercentage } from '@/lib/utils/helpers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const user = await requireRole(['student']);

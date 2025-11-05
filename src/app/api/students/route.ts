@@ -3,6 +3,8 @@ import { requireRole } from '@/lib/auth/session';
 import connectDB from '@/lib/db/mongodb';
 import Student from '@/models/Student';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     await requireRole(['teacher', 'admin']);

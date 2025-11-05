@@ -5,6 +5,8 @@ import Attendance from '@/models/Attendance';
 import Subject from '@/models/Subject';
 import { calculateAttendancePercentage } from '@/lib/utils/helpers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const user = await requireRole(['student']);
