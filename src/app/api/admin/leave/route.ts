@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/session';
 import connectDB from '@/lib/db/mongodb';
 import LeaveRequest from '@/models/LeaveRequest';
-import User from '@/models/User';
+import Student from '@/models/Student';
 import { leaveApprovalSchema } from '@/lib/validations/schemas';
 import { sendLeaveStatusEmail } from '@/lib/email/email-service';
 
@@ -89,7 +89,7 @@ export async function PATCH(req: NextRequest) {
     await leaveRequest.save();
     
     // Get student details for email
-    const student = await User.findById(leaveRequest.studentId);
+    const student = await Student.findById(leaveRequest.studentId);
     
     if (student) {
       // Send email notification (don't await)
