@@ -154,14 +154,14 @@ export default function StudentDashboard() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Student Dashboard</h1>
-              <p className="text-sm text-gray-600">Welcome, {session.user?.name}</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Student Dashboard</h1>
+              <p className="text-xs sm:text-sm text-gray-600">Welcome, {session.user?.name}</p>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="text-right hidden sm:block">
                 <p className="text-sm font-medium text-gray-900">{session.user?.rollNo}</p>
                 <p className="text-xs text-gray-600">
                   {session.user?.branch} - Sem {session.user?.semester}
@@ -169,11 +169,18 @@ export default function StudentDashboard() {
               </div>
               <Button
                 variant="outline"
+                size="sm"
                 onClick={() => signOut({ callbackUrl: '/login' })}
+                className="text-xs sm:text-sm"
               >
                 Logout
               </Button>
             </div>
+          </div>
+          <div className="mt-2 sm:hidden">
+            <p className="text-xs text-gray-600">
+              {session.user?.rollNo} • {session.user?.branch} - Sem {session.user?.semester}
+            </p>
           </div>
         </div>
       </header>
@@ -187,19 +194,17 @@ export default function StudentDashboard() {
         )}
 
         {/* Quick Action */}
-        <div className="mb-8 flex justify-end">
-          <Button onClick={() => router.push('/student/leave/apply')}>
+        <div className="mb-6 sm:mb-8 flex justify-end">
+          <Button onClick={() => router.push('/student/leave/apply')} size="sm" className="sm:h-10">
             Apply for Leave
           </Button>
         </div>
 
         {/* Subject Cards */}
         <div>
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">My Subjects</h2>
-              <p className="text-sm text-gray-600">Click on any subject to view detailed attendance</p>
-            </div>
+          <div className="mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">My Subjects</h2>
+            <p className="text-xs sm:text-sm text-gray-600">Click on any subject to view detailed attendance</p>
           </div>
 
           {!subjects || subjects.length === 0 ? (
@@ -211,7 +216,7 @@ export default function StudentDashboard() {
               </CardContent>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {subjects.map((subject) => {
                 const attendance = subject.attendance || { total: 0, present: 0, absent: 0, percentage: 0 };
                 return (

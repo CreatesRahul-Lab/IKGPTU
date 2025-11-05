@@ -193,13 +193,13 @@ export default function TeacherDashboard() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
-              <p className="text-sm text-gray-600">Welcome, {session?.user?.name}</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
+              <p className="text-xs sm:text-sm text-gray-600">Welcome, {session?.user?.name}</p>
             </div>
-            <Button variant="outline" onClick={() => signOut({ callbackUrl: '/login' })}>
+            <Button variant="outline" size="sm" onClick={() => signOut({ callbackUrl: '/login' })} className="text-xs sm:text-sm">
               Logout
             </Button>
           </div>
@@ -216,7 +216,7 @@ export default function TeacherDashboard() {
           <CardContent>
             <div className="space-y-6">
               {/* Selection Form */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                 {/* Branch Selection */}
                 <div className="space-y-2">
                   <Label htmlFor="branch">Branch</Label>

@@ -7,46 +7,48 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <GraduationCap className="h-8 w-8 text-blue-600" />
-            <div>
-              <h1 className="font-bold text-xl">IK Gujral PTU</h1>
-              <p className="text-xs text-muted-foreground">Attendance Management System</p>
+        <div className="container mx-auto px-4 py-3 sm:py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <GraduationCap className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+              <div>
+                <h1 className="font-bold text-base sm:text-xl">IK Gujral PTU</h1>
+                <p className="text-[10px] sm:text-xs text-muted-foreground hidden xs:block">Attendance System</p>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-3">
-            <Link href="/login">
-              <Button variant="ghost">Login</Button>
-            </Link>
-            <Link href="/signup">
-              <Button>Student Signup</Button>
-            </Link>
-            <Link href="/teacher/signup">
-              <Button variant="outline">Teacher Signup</Button>
-            </Link>
+            <div className="flex gap-2 sm:gap-3">
+              <Link href="/login">
+                <Button variant="ghost" size="sm" className="text-xs sm:text-sm">Login</Button>
+              </Link>
+              <Link href="/signup" className="hidden sm:inline-block">
+                <Button size="sm" className="text-xs sm:text-sm">Student Signup</Button>
+              </Link>
+              <Link href="/signup" className="sm:hidden">
+                <Button size="sm" className="text-xs">Signup</Button>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-10 sm:py-16 md:py-20">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Smart Attendance Management
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 px-4">
             Streamline attendance tracking for IK Gujral Punjab Technical University
             with real-time updates, automated reporting, and comprehensive analytics.
           </p>
-          <div className="flex gap-4 justify-center">
-            <Link href="/signup">
-              <Button size="lg" className="text-lg px-8">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+            <Link href="/signup" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto text-base sm:text-lg px-6 sm:px-8">
                 Get Started
               </Button>
             </Link>
-            <Link href="/login">
-              <Button size="lg" variant="outline" className="text-lg px-8">
+            <Link href="/login" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto text-base sm:text-lg px-6 sm:px-8">
                 Login
               </Button>
             </Link>
@@ -55,9 +57,9 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section className="container mx-auto px-4 py-16">
-        <h3 className="text-3xl font-bold text-center mb-12">Key Features</h3>
-        <div className="grid md:grid-cols-3 gap-8">
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <h3 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">Key Features</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           <FeatureCard
             icon={<Clock className="h-10 w-10 text-blue-600" />}
             title="Real-time Updates"
@@ -92,10 +94,10 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t mt-20 py-8 bg-white">
+      <footer className="border-t mt-12 sm:mt-20 py-6 sm:py-8 bg-white">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} IK Gujral Punjab Technical University</p>
-          <p className="text-sm mt-2">
+          <p className="text-sm sm:text-base">&copy; {new Date().getFullYear()} IK Gujral Punjab Technical University</p>
+          <p className="text-xs sm:text-sm mt-2">
             Jalandhar-Kapurthala Highway, Kapurthala - 144603, Punjab, India
           </p>
         </div>
@@ -114,10 +116,10 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-      <div className="mb-4">{icon}</div>
-      <h4 className="text-xl font-semibold mb-2">{title}</h4>
-      <p className="text-muted-foreground">{description}</p>
+    <div className="bg-white p-5 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+      <div className="mb-3 sm:mb-4">{icon}</div>
+      <h4 className="text-lg sm:text-xl font-semibold mb-2">{title}</h4>
+      <p className="text-sm sm:text-base text-muted-foreground">{description}</p>
     </div>
   );
 }

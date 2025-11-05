@@ -45,28 +45,28 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 p-3 sm:p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-4 sm:mb-6">
           <div className="flex items-center space-x-2">
-            <GraduationCap className="h-10 w-10 text-blue-600" />
+            <GraduationCap className="h-8 w-8 sm:h-10 sm:w-10 text-blue-600" />
             <div>
-              <h1 className="font-bold text-2xl">IK Gujral PTU</h1>
-              <p className="text-sm text-muted-foreground">Attendance System</p>
+              <h1 className="font-bold text-xl sm:text-2xl">IK Gujral PTU</h1>
+              <p className="text-xs sm:text-sm text-muted-foreground">Attendance System</p>
             </div>
           </div>
         </div>
 
         <Card>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Login</CardTitle>
-            <CardDescription>
+          <CardHeader className="space-y-1 p-4 sm:p-6">
+            <CardTitle className="text-xl sm:text-2xl font-bold">Login</CardTitle>
+            <CardDescription className="text-sm">
               Enter your email and password to access your account
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <CardContent className="p-4 sm:p-6">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div className="space-y-3">
                 <Label>Login as</Label>
                 <div className="flex gap-6">

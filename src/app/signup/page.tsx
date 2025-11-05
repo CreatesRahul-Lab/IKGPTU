@@ -92,16 +92,16 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-3 sm:p-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
-          <CardDescription className="text-center">
+        <CardHeader className="space-y-1 p-4 sm:p-6">
+          <CardTitle className="text-xl sm:text-2xl font-bold text-center">Create Account</CardTitle>
+          <CardDescription className="text-center text-sm">
             Register at IK Gujral PTU
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="p-4 sm:p-6">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
             {error && (
               <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
                 {error}
