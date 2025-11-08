@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import connectDB from '@/lib/db/mongodb';
 import Student from '@/models/Student';
 import Faculty from '@/models/Faculty';
+import Admin from '@/models/Admin';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -37,6 +38,17 @@ export const authOptions: NextAuthOptions = {
             
             if (userDoc) {
               role = 'teacher';
+            }
+          }
+
+          // If not found in Faculty, try Admin collection
+          if (!userDoc) {
+            userDoc = await Admin.findOne({ 
+              email: credentials.email.toLowerCase() 
+            }).select('+password');
+            
+            if (userDoc) {
+              role = 'admin';
             }
           }
 

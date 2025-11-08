@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/session';
 import connectDB from '@/lib/db/mongodb';
 import Subject from '@/models/Subject';
+import Faculty from '@/models/Faculty';
 
 export async function GET(req: NextRequest) {
   try {
@@ -20,10 +21,9 @@ export async function GET(req: NextRequest) {
       if (semester) query.semester = parseInt(semester);
     }
     
-    const subjects = await Subject.find(query).sort({ 
-      semester: 1, 
-      courseCode: 1 
-    });
+    const subjects = await Subject.find(query)
+      .sort({ semester: 1, courseCode: 1 })
+      .lean();
     
     return NextResponse.json({ subjects });
   } catch (error: any) {

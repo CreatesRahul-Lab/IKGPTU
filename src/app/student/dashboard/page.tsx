@@ -193,8 +193,11 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* Quick Action */}
-        <div className="mb-6 sm:mb-8 flex justify-end">
+        {/* Quick Actions */}
+        <div className="mb-6 sm:mb-8 flex flex-wrap gap-3 justify-end">
+          <Button onClick={() => router.push('/student/marks')} variant="outline" size="sm" className="sm:h-10">
+            View Marks
+          </Button>
           <Button onClick={() => router.push('/student/leave/apply')} size="sm" className="sm:h-10">
             Apply for Leave
           </Button>

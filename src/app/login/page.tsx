@@ -14,7 +14,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginType, setLoginType] = useState<'student' | 'faculty'>('student');
+  const [loginType, setLoginType] = useState<'student' | 'faculty' | 'admin'>('student');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -69,7 +69,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div className="space-y-3">
                 <Label>Login as</Label>
-                <div className="flex gap-6">
+                <div className="flex flex-wrap gap-4 sm:gap-6">
                   <div className="flex items-center space-x-2">
                     <input
                       type="radio"
@@ -77,7 +77,7 @@ export default function LoginPage() {
                       name="loginType"
                       value="student"
                       checked={loginType === 'student'}
-                      onChange={(e) => setLoginType(e.target.value as 'student' | 'faculty')}
+                      onChange={(e) => setLoginType(e.target.value as 'student' | 'faculty' | 'admin')}
                       disabled={loading}
                       className="w-4 h-4 text-blue-600 focus:ring-blue-500"
                     />
@@ -92,12 +92,27 @@ export default function LoginPage() {
                       name="loginType"
                       value="faculty"
                       checked={loginType === 'faculty'}
-                      onChange={(e) => setLoginType(e.target.value as 'student' | 'faculty')}
+                      onChange={(e) => setLoginType(e.target.value as 'student' | 'faculty' | 'admin')}
                       disabled={loading}
                       className="w-4 h-4 text-blue-600 focus:ring-blue-500"
                     />
                     <Label htmlFor="faculty" className="font-normal cursor-pointer">
                       Faculty
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="admin"
+                      name="loginType"
+                      value="admin"
+                      checked={loginType === 'admin'}
+                      onChange={(e) => setLoginType(e.target.value as 'student' | 'faculty' | 'admin')}
+                      disabled={loading}
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <Label htmlFor="admin" className="font-normal cursor-pointer">
+                      Admin
                     </Label>
                   </div>
                 </div>
@@ -108,7 +123,13 @@ export default function LoginPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder={loginType === 'student' ? 'student@example.com' : 'teacher@ikgptu.ac.in'}
+                  placeholder={
+                    loginType === 'student' 
+                      ? 'student@example.com' 
+                      : loginType === 'admin'
+                      ? 'admin@ikgptu.ac.in'
+                      : 'teacher@ikgptu.ac.in'
+                  }
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -147,18 +168,20 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-4 text-center text-sm space-y-2">
-              <div>
-                <span className="text-muted-foreground">Don't have an account? </span>
-                {loginType === 'student' ? (
-                  <Link href="/signup" className="text-primary hover:underline font-medium">
-                    Sign up as Student
-                  </Link>
-                ) : (
-                  <Link href="/teacher/signup" className="text-primary hover:underline font-medium">
-                    Sign up as Faculty
-                  </Link>
-                )}
-              </div>
+              {loginType !== 'admin' && (
+                <div>
+                  <span className="text-muted-foreground">Don't have an account? </span>
+                  {loginType === 'student' ? (
+                    <Link href="/signup" className="text-primary hover:underline font-medium">
+                      Sign up as Student
+                    </Link>
+                  ) : (
+                    <Link href="/teacher/signup" className="text-primary hover:underline font-medium">
+                      Sign up as Faculty
+                    </Link>
+                  )}
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

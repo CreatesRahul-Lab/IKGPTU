@@ -15,6 +15,8 @@ export interface ISubject extends Document {
   totalMarks?: number;
   isLab: boolean;
   isElective: boolean;
+  teacherId?: mongoose.Types.ObjectId;
+  teacherName?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -73,6 +75,15 @@ const SubjectSchema = new Schema<ISubject>(
     isElective: {
       type: Boolean,
       default: false,
+    },
+    teacherId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Faculty',
+      default: null,
+    },
+    teacherName: {
+      type: String,
+      default: null,
     },
   },
   {

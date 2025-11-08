@@ -42,6 +42,7 @@ export default function TeacherDashboard() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [allSubjects, setAllSubjects] = useState<Subject[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
   
@@ -54,14 +55,22 @@ export default function TeacherDashboard() {
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login');
+    } else if (status === 'authenticated') {
+      fetchTeacherSubjects();
     }
   }, [status, router]);
 
   useEffect(() => {
-    if (selectedBranch && selectedSemester) {
-      fetchSubjects();
+    if (selectedBranch && selectedSemester && allSubjects.length > 0) {
+      filterSubjectsByBranchSemester();
     }
-  }, [selectedBranch, selectedSemester]);
+  }, [selectedBranch, selectedSemester, allSubjects]);
+
+  useEffect(() => {
+    if (selectedBranch && selectedSemester && allSubjects.length > 0) {
+      filterSubjectsByBranchSemester();
+    }
+  }, [selectedBranch, selectedSemester, allSubjects]);
 
   useEffect(() => {
     if (selectedBranch && selectedSemester && selectedSubject) {
@@ -69,19 +78,31 @@ export default function TeacherDashboard() {
     }
   }, [selectedBranch, selectedSemester, selectedSubject]);
 
-  const fetchSubjects = async () => {
+  const fetchTeacherSubjects = async () => {
     try {
-      const response = await fetch(`/api/subjects?branch=${selectedBranch}&semester=${selectedSemester}`);
+      const response = await fetch('/api/teacher/subjects');
       if (response.ok) {
         const data = await response.json();
-        setSubjects(data.subjects || []);
-        setSelectedSubject('');
-        setStudents([]);
-        setAttendance([]);
+        setAllSubjects(data.subjects || []);
+        // Filter for initial branch and semester
+        const filtered = (data.subjects || []).filter(
+          (s: Subject) => s.branch === selectedBranch && s.semester === parseInt(selectedSemester)
+        );
+        setSubjects(filtered);
       }
     } catch (err) {
       console.error('Failed to fetch subjects:', err);
     }
+  };
+
+  const filterSubjectsByBranchSemester = () => {
+    const filtered = allSubjects.filter(
+      (s) => s.branch === selectedBranch && s.semester === parseInt(selectedSemester)
+    );
+    setSubjects(filtered);
+    setSelectedSubject('');
+    setStudents([]);
+    setAttendance([]);
   };
 
   const fetchStudents = async () => {
@@ -201,6 +222,14 @@ export default function TeacherDashboard() {
               <p className="text-xs sm:text-sm text-gray-600">Welcome, {session?.user?.name}</p>
             </div>
             <div className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => router.push('/teacher/upload-marks')}
+                className="text-xs sm:text-sm"
+              >
+                Upload Marks
+              </Button>
               <Button 
                 variant="outline" 
                 size="sm" 
