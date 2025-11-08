@@ -129,8 +129,10 @@ export default function AdminSubjectsPage() {
         setSelectedSubject(null);
         setSelectedTeacher('');
         
-        // Refresh data immediately
+        // Refresh data immediately - fetch fresh data from server
+        setLoading(true);
         await fetchData();
+        setLoading(false);
         
         // Show success message
         alert(data.message || 'Subject assigned successfully');
