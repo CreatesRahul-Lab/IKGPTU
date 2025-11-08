@@ -49,6 +49,7 @@ export default function TeacherDashboard() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -223,12 +224,45 @@ export default function TeacherDashboard() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Upload Attendance</CardTitle>
-            <CardDescription>Select branch, semester, subject, and mark attendance</CardDescription>
+        {/* Action Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Upload Attendance Card */}
+          <Card 
+            className={`transition-all duration-300 ${
+              !isUploadOpen 
+                ? 'cursor-pointer hover:shadow-2xl hover:scale-[1.02] aspect-square' 
+                : 'md:col-span-2'
+            }`}
+            onClick={() => !isUploadOpen && setIsUploadOpen(true)}
+          >
+          <CardHeader className={!isUploadOpen ? 'flex items-center justify-center h-full' : ''}>
+            <div className={`flex items-center justify-between ${!isUploadOpen ? 'flex-col h-full' : ''}`}>
+              <div className={!isUploadOpen ? 'flex flex-col items-center justify-center w-full h-full text-center' : ''}>
+                <CardTitle className={`text-2xl ${!isUploadOpen ? 'text-4xl mb-4 text-center' : ''}`}>
+                  📋 Upload Attendance
+                </CardTitle>
+                <CardDescription className={!isUploadOpen ? 'text-center text-base' : ''}>
+                  {!isUploadOpen ? 'Click to open and mark attendance' : 'Select branch, semester, subject, and mark attendance'}
+                </CardDescription>
+              </div>
+              {isUploadOpen && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsUploadOpen(!isUploadOpen);
+                  }}
+                  className="text-xl font-bold"
+                >
+                  ✕
+                </Button>
+              )}
+            </div>
           </CardHeader>
-          <CardContent>
+          
+          {isUploadOpen && (
+            <CardContent onClick={(e) => e.stopPropagation()}>
             <div className="space-y-6">
               {/* Selection Form */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
@@ -416,7 +450,29 @@ export default function TeacherDashboard() {
               )}
             </div>
           </CardContent>
+          )}
         </Card>
+
+        {/* Compile Attendance Card */}
+        {!isUploadOpen && (
+          <Card 
+            className="cursor-pointer hover:shadow-2xl hover:scale-[1.02] aspect-square transition-all duration-300"
+            onClick={() => router.push('/teacher/compile-attendance')}
+          >
+            <CardHeader className="h-full">
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <div className="text-6xl mb-4">📊</div>
+                <CardTitle className="text-4xl mb-4">
+                  Compile Attendance
+                </CardTitle>
+                <CardDescription className="text-center text-base">
+                  Click to generate attendance reports
+                </CardDescription>
+              </div>
+            </CardHeader>
+          </Card>
+        )}
+        </div>
       </main>
     </div>
   );
