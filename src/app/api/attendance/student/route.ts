@@ -3,6 +3,7 @@ import { requireRole } from '@/lib/auth/session';
 import connectDB from '@/lib/db/mongodb';
 import Attendance from '@/models/Attendance';
 import { calculateAttendancePercentage } from '@/lib/utils/helpers';
+import { cache, cacheKeys } from '@/lib/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +15,15 @@ export async function GET(req: NextRequest) {
     const subjectId = searchParams.get('subjectId');
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
+    
+    // Check cache first
+    const cacheKey = cacheKeys.attendance(user.id, subjectId || 'all');
+    if (!startDate && !endDate) {
+      const cached = cache.get(cacheKey);
+      if (cached) {
+        return NextResponse.json(cached);
+      }
+    }
     
     await connectDB();
     
@@ -33,9 +43,12 @@ export async function GET(req: NextRequest) {
       if (endDate) query.date.$lte = new Date(endDate);
     }
     
+    // Optimized query with lean() for better performance
     const attendanceRecords = await Attendance.find(query)
       .sort({ date: -1 })
-      .select('date subject subjectCode subjectName records');
+      .select('date subject subjectCode subjectName records')
+      .lean()
+      .exec();
     
     // Process records to extract student's attendance
     const processedRecords = attendanceRecords.map((record) => {
@@ -75,10 +88,17 @@ export async function GET(req: NextRequest) {
       };
     }
     
-    return NextResponse.json({
+    const response = {
       attendance: processedRecords,
       stats,
-    });
+    };
+    
+    // Cache response for 2 minutes if no date filter
+    if (!startDate && !endDate) {
+      cache.set(cacheKey, response, 2 * 60 * 1000);
+    }
+    
+    return NextResponse.json(response);
   } catch (error: any) {
     console.error('Fetch student attendance error:', error);
     return NextResponse.json(

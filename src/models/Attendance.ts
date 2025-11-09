@@ -52,19 +52,16 @@ const AttendanceSchema = new Schema<IAttendance>(
     date: {
       type: Date,
       required: [true, 'Date is required'],
-      index: true,
     },
     subject: {
       type: Schema.Types.ObjectId,
       ref: 'Subject',
       required: true,
-      index: true,
     },
     subjectCode: {
       type: String,
       required: true,
       uppercase: true,
-      index: true,
     },
     subjectName: {
       type: String,
@@ -74,14 +71,12 @@ const AttendanceSchema = new Schema<IAttendance>(
       type: String,
       required: true,
       enum: ['BTCS', 'BTAI', 'BBA', 'BCA'],
-      index: true,
     },
     semester: {
       type: Number,
       required: true,
       min: 1,
       max: 8,
-      index: true,
     },
     uploadedBy: {
       type: Schema.Types.ObjectId,
@@ -108,7 +103,6 @@ const AttendanceSchema = new Schema<IAttendance>(
     academicYear: {
       type: String,
       required: true,
-      index: true,
     },
   },
   {

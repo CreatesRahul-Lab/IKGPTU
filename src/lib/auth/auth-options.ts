@@ -5,6 +5,7 @@ import connectDB from '@/lib/db/mongodb';
 import Student from '@/models/Student';
 import Faculty from '@/models/Faculty';
 import Admin from '@/models/Admin';
+import { cache, cacheKeys } from '@/lib/cache';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -20,43 +21,26 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
+          const email = credentials.email.toLowerCase();
+          const cacheKey = cacheKeys.user(email);
+          
           await connectDB();
           
-          // Try to find user in Student collection first
-          let user = await Student.findOne({ 
-            email: credentials.email.toLowerCase() 
-          }).select('+password');
-          
-          let role: 'student' | 'teacher' | 'admin' = 'student';
-          let userDoc: any = user;
+          // Parallel queries for better performance
+          const [student, faculty, admin] = await Promise.all([
+            Student.findOne({ email }).select('+password').lean().exec(),
+            Faculty.findOne({ email }).select('+password').lean().exec(),
+            Admin.findOne({ email }).select('+password').lean().exec(),
+          ]);
 
-          // If not found in Student, try Faculty collection
-          if (!user) {
-            userDoc = await Faculty.findOne({ 
-              email: credentials.email.toLowerCase() 
-            }).select('+password');
-            
-            if (userDoc) {
-              role = 'teacher';
-            }
-          }
-
-          // If not found in Faculty, try Admin collection
-          if (!userDoc) {
-            userDoc = await Admin.findOne({ 
-              email: credentials.email.toLowerCase() 
-            }).select('+password');
-            
-            if (userDoc) {
-              role = 'admin';
-            }
-          }
+          const userDoc: any = student || faculty || admin;
+          const role: 'student' | 'teacher' | 'admin' = student ? 'student' : faculty ? 'teacher' : 'admin';
 
           if (!userDoc) {
             throw new Error('Invalid email or password');
           }
 
-          if (!userDoc.isActive) {
+          if (userDoc.isActive === false) {
             throw new Error('Account is deactivated. Please contact admin.');
           }
 
@@ -69,7 +53,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Invalid email or password');
           }
 
-          return {
+          const userData = {
             id: userDoc._id.toString(),
             email: userDoc.email,
             name: userDoc.name,
@@ -80,6 +64,11 @@ export const authOptions: NextAuthOptions = {
             employeeId: undefined,
             department: undefined,
           };
+
+          // Cache user data (without password) for 5 minutes
+          cache.set(cacheKey, userData, 5 * 60 * 1000);
+
+          return userData;
         } catch (error: any) {
           throw new Error(error.message || 'Authentication failed');
         }

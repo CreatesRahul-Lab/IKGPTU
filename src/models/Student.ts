@@ -63,10 +63,13 @@ const studentSchema = new Schema<IStudent>(
   }
 );
 
-// Indexes
+// Indexes for optimized queries
 studentSchema.index({ email: 1 }, { unique: true });
 studentSchema.index({ rollNo: 1 }, { unique: true });
-studentSchema.index({ branch: 1, semester: 1 });
+studentSchema.index({ branch: 1, semester: 1 }); // Compound index for common queries
+studentSchema.index({ isActive: 1, branch: 1, semester: 1 }); // For active students filter
+studentSchema.index({ email: 1, isActive: 1 }); // For login queries
+studentSchema.index({ name: 'text', email: 'text', rollNo: 'text' }); // Text search
 
 const Student = mongoose.models.Student || mongoose.model<IStudent>('Student', studentSchema);
 

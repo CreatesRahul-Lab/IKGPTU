@@ -43,8 +43,10 @@ const facultySchema = new Schema<IFaculty>(
   }
 );
 
-// Indexes
+// Indexes for optimized queries
 facultySchema.index({ email: 1 }, { unique: true });
+facultySchema.index({ isActive: 1, email: 1 }); // For active faculty queries
+facultySchema.index({ name: 'text', email: 'text' }); // Text search
 
 const Faculty = mongoose.models.Faculty || mongoose.model<IFaculty>('Faculty', facultySchema);
 

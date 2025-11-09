@@ -48,71 +48,19 @@ export default function StudentDashboard() {
 
   const fetchData = async () => {
     try {
-      // Fetch all subjects for the student's semester
-      const subjectsResponse = await fetch(`/api/subjects?branch=${session?.user?.branch}&semester=${session?.user?.semester}`);
+      setLoading(true);
       
-      if (!subjectsResponse.ok) {
-        throw new Error('Failed to fetch subjects');
+      // Single optimized API call that returns everything
+      const response = await fetch('/api/student/dashboard');
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch dashboard data');
       }
 
-      const subjectsData = await subjectsResponse.json();
+      const data = await response.json();
       
-      // Fetch attendance data
-      const attendanceResponse = await fetch('/api/attendance/student');
-      
-      if (attendanceResponse.ok) {
-        const attendanceData = await attendanceResponse.json();
-        
-        // Group attendance by subject
-        const attendanceBySubject: Record<string, any> = {};
-        
-        if (attendanceData.attendance && Array.isArray(attendanceData.attendance)) {
-          attendanceData.attendance.forEach((record: any) => {
-            const subjectId = record.subject.id.toString();
-            if (!attendanceBySubject[subjectId]) {
-              attendanceBySubject[subjectId] = {
-                total: 0,
-                present: 0,
-                absent: 0,
-              };
-            }
-            attendanceBySubject[subjectId].total++;
-            if (record.status === 'P' || record.status === 'L') {
-              attendanceBySubject[subjectId].present++;
-            } else {
-              attendanceBySubject[subjectId].absent++;
-            }
-          });
-        }
-        
-        // Calculate percentage for each subject
-        Object.keys(attendanceBySubject).forEach(subjectId => {
-          const data = attendanceBySubject[subjectId];
-          data.percentage = data.total > 0 ? (data.present / data.total) * 100 : 0;
-        });
-        
-        // Merge subjects with attendance data
-        const mergedSubjects = subjectsData.subjects.map((subject: Subject) => {
-          const attendanceStats = attendanceBySubject[subject._id] || { 
-            total: 0, 
-            present: 0, 
-            absent: 0, 
-            percentage: 0 
-          };
-          return {
-            ...subject,
-            attendance: attendanceStats
-          };
-        });
-        
-        setSubjects(mergedSubjects);
-      } else {
-        // No attendance data yet, just show subjects
-        setSubjects(subjectsData.subjects.map((s: Subject) => ({
-          ...s,
-          attendance: { total: 0, present: 0, absent: 0, percentage: 0 }
-        })));
-      }
+      setStats(data.stats);
+      setSubjects(data.subjects);
     } catch (err: any) {
       console.error('Fetch error:', err);
       setError(err.message || 'Failed to load data');

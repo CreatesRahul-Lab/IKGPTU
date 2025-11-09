@@ -28,7 +28,6 @@ const SubjectSchema = new Schema<ISubject>(
       required: [true, 'Course code is required'],
       uppercase: true,
       trim: true,
-      index: true,
     },
     courseTitle: {
       type: String,
@@ -43,14 +42,12 @@ const SubjectSchema = new Schema<ISubject>(
       type: String,
       required: [true, 'Branch is required'],
       enum: ['BTCS', 'BTAI', 'BBA', 'BCA'],
-      index: true,
     },
     semester: {
       type: Number,
       required: [true, 'Semester is required'],
       min: 1,
       max: 8,
-      index: true,
     },
     credits: {
       type: Number,
@@ -94,6 +91,9 @@ const SubjectSchema = new Schema<ISubject>(
 // Compound indexes for efficient queries
 SubjectSchema.index({ branch: 1, semester: 1 });
 SubjectSchema.index({ courseCode: 1, branch: 1, semester: 1 }, { unique: true });
+SubjectSchema.index({ teacherId: 1 }); // For fetching teacher's assigned subjects
+SubjectSchema.index({ isElective: 1, branch: 1, semester: 1 }); // For elective queries
+SubjectSchema.index({ courseTitle: 'text', courseCode: 'text' }); // Text search
 
 const Subject: Model<ISubject> = mongoose.models.Subject || mongoose.model<ISubject>('Subject', SubjectSchema);
 
