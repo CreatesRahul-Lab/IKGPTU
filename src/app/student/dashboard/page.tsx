@@ -5,6 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import NotificationCenter from '@/components/NotificationCenter';
 
 interface AttendanceStats {
   totalClasses: number;
@@ -109,6 +110,7 @@ export default function StudentDashboard() {
               <p className="text-xs sm:text-sm text-gray-600">Welcome, {session.user?.name}</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
+              <NotificationCenter userType="student" />
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-medium text-gray-900">{session.user?.rollNo}</p>
                 <p className="text-xs text-gray-600">

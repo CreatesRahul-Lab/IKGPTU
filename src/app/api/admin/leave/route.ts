@@ -5,6 +5,7 @@ import LeaveRequest from '@/models/LeaveRequest';
 import Student from '@/models/Student';
 import { leaveApprovalSchema } from '@/lib/validations/schemas';
 import { sendLeaveStatusEmail } from '@/lib/email/email-service';
+import { NotificationService } from '@/lib/notifications/notification-service';
 
 export async function GET(req: NextRequest) {
   try {
@@ -100,6 +101,17 @@ export async function PATCH(req: NextRequest) {
         validatedData.status,
         validatedData.comments
       ).catch(console.error);
+
+      // Send in-app notification
+      try {
+        await NotificationService.notifyLeaveStatus(
+          student._id,
+          validatedData.status === 'Approved' ? 'approved' : 'rejected',
+          validatedData.comments || 'No comments provided'
+        );
+      } catch (notifError) {
+        console.error('Error sending leave status notification:', notifError);
+      }
     }
     
     return NextResponse.json({

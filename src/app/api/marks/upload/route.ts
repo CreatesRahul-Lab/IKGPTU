@@ -5,6 +5,7 @@ import Marks from '@/models/Marks';
 import Subject from '@/models/Subject';
 import Student from '@/models/Student';
 import { cache } from '@/lib/cache';
+import { NotificationService } from '@/lib/notifications/notification-service';
 
 export const dynamic = 'force-dynamic';
 
@@ -121,6 +122,20 @@ export async function POST(req: NextRequest) {
 
         // Invalidate student's marks cache
         cache.delete(`marks:${studentId}`);
+
+        // Send notification to the student
+        try {
+          await NotificationService.notifyMarksAssigned(
+            studentId,
+            subject.courseTitle,
+            obtainedMarks,
+            totalMarks,
+            examType
+          );
+        } catch (notifError) {
+          console.error('Error sending marks notification:', notifError);
+          // Don't fail if notification fails
+        }
       } catch (error: any) {
         results.failed++;
         results.errors.push(`Error processing student ${mark.studentId}: ${error.message}`);

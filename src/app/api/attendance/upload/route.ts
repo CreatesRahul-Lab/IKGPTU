@@ -7,6 +7,7 @@ import User from '@/models/User';
 import { attendanceUploadSchema } from '@/lib/validations/schemas';
 import { getAcademicYear } from '@/lib/utils/helpers';
 import { broadcastToClients } from '@/lib/sse-manager';
+import { NotificationService } from '@/lib/notifications/notification-service';
 
 export async function POST(req: NextRequest) {
   try {
@@ -66,6 +67,24 @@ export async function POST(req: NextRequest) {
         date: attendance.date,
       },
     });
+    
+    // Send notifications to all students whose attendance was marked
+    try {
+      const notificationPromises = validatedData.records.map(record => {
+        // Convert 'P', 'A', 'L' to 'present' or 'absent'
+        const status = record.status === 'P' ? 'present' : 'absent';
+        return NotificationService.notifyAttendanceMarked(
+          record.studentId,
+          validatedData.subjectName,
+          status,
+          new Date(validatedData.date)
+        );
+      });
+      await Promise.allSettled(notificationPromises);
+    } catch (notifError) {
+      console.error('Error sending attendance notifications:', notifError);
+      // Don't fail the request if notifications fail
+    }
     
     return NextResponse.json(
       {

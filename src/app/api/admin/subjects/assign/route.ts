@@ -4,6 +4,7 @@ import connectDB from '@/lib/db/mongodb';
 import Subject from '@/models/Subject';
 import Faculty from '@/models/Faculty';
 import mongoose from 'mongoose';
+import { NotificationService } from '@/lib/notifications/notification-service';
 
 export const dynamic = 'force-dynamic';
 
@@ -86,6 +87,20 @@ export async function POST(req: NextRequest) {
       teacherId: subject.teacherId,
       teacherName: subject.teacherName 
     });
+
+    // Send notification to the teacher
+    try {
+      await NotificationService.notifySubjectAssignment(
+        teacherId,
+        subject.courseCode,
+        subject.courseTitle,
+        subject.semester,
+        subject.branch
+      );
+    } catch (notifError) {
+      console.error('Error sending subject assignment notification:', notifError);
+      // Don't fail the request if notification fails
+    }
 
     return NextResponse.json({
       message: 'Subject assigned successfully',

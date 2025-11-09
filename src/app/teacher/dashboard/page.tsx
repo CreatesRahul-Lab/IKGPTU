@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import NotificationCenter from '@/components/NotificationCenter';
 
 interface Subject {
   _id: string;
@@ -222,6 +223,7 @@ export default function TeacherDashboard() {
               <p className="text-xs sm:text-sm text-gray-600">Welcome, {session?.user?.name}</p>
             </div>
             <div className="flex items-center gap-2">
+              <NotificationCenter userType="teacher" />
               <Button 
                 variant="outline" 
                 size="sm" 
