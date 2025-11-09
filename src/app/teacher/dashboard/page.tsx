@@ -37,7 +37,7 @@ export default function TeacherDashboard() {
   const router = useRouter();
   
   const [selectedBranch, setSelectedBranch] = useState('BTCS');
-  const [selectedSemester, setSelectedSemester] = useState('3');
+  const [selectedSemester, setSelectedSemester] = useState('1');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   
@@ -320,7 +320,7 @@ export default function TeacherDashboard() {
                     onChange={(e) => setSelectedSemester(e.target.value)}
                     className="w-full h-10 px-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    {[3, 4, 5, 6, 7, 8].map((sem) => (
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
                       <option key={sem} value={sem}>
                         Semester {sem}
                       </option>

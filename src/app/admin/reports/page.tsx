@@ -181,7 +181,7 @@ export default function AttendanceReportsPage() {
                   className="w-full px-3 py-2 border rounded-md min-h-[44px]"
                 >
                   <option value="ALL">All Semesters</option>
-                  {[3, 4, 5, 6, 7, 8].map((sem) => (
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
                     <option key={sem} value={sem}>
                       Semester {sem}
                     </option>

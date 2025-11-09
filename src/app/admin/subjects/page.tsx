@@ -240,7 +240,7 @@ export default function AdminSubjectsPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Semesters</SelectItem>
-                    {[3, 4, 5, 6, 7, 8].map((sem) => (
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
                       <SelectItem key={sem} value={sem.toString()}>
                         Semester {sem}
                       </SelectItem>

@@ -38,7 +38,7 @@ export default function CompileAttendancePage() {
   const router = useRouter();
 
   const [selectedBranch, setSelectedBranch] = useState('BTCS');
-  const [selectedSemester, setSelectedSemester] = useState('3');
+  const [selectedSemester, setSelectedSemester] = useState('1');
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [students, setStudents] = useState<Student[]>([]);

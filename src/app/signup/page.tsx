@@ -18,7 +18,7 @@ export default function SignupPage() {
     confirmPassword: '',
     rollNo: '',
     branch: 'BTCS',
-    semester: '3',
+    semester: '1',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -213,7 +213,7 @@ export default function SignupPage() {
                       className="w-full h-10 px-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       required
                     >
-                      {[3, 4, 5, 6, 7, 8].map((sem) => (
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
                         <option key={sem} value={sem}>
                           Semester {sem}
                         </option>
