@@ -171,6 +171,7 @@ export default function AttendanceUploadPage() {
           branch: selectedBranch,
           semester: parseInt(selectedSemester),
           records: attendance,
+          academicYear: new Date().getFullYear().toString(),
         }),
       });
 

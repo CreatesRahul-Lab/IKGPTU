@@ -6,7 +6,6 @@ import {
   LayoutDashboard, 
   Calendar, 
   BookOpen, 
-  FileText, 
   LogOut,
   Menu,
   X
@@ -24,7 +23,6 @@ const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/student/dashboard', icon: LayoutDashboard },
   { name: 'Attendance', href: '/student/attendance', icon: Calendar },
   { name: 'Marks', href: '/student/marks', icon: BookOpen },
-  { name: 'Apply Leave', href: '/student/leave', icon: FileText },
 ];
 
 export default function StudentSidebar() {

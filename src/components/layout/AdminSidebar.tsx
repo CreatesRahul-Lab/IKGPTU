@@ -7,9 +7,7 @@ import {
   Users, 
   UserCheck,
   BookOpen,
-  FileText,
   BarChart3,
-  Settings,
   LogOut,
   Menu,
   X
@@ -28,9 +26,7 @@ const navigation: NavItem[] = [
   { name: 'Student Management', href: '/admin/students', icon: Users },
   { name: 'Faculty Management', href: '/admin/faculty', icon: UserCheck },
   { name: 'Subject Management', href: '/admin/subjects', icon: BookOpen },
-  { name: 'Leave Requests', href: '/admin/leave-requests', icon: FileText },
   { name: 'Attendance Reports', href: '/admin/reports', icon: BarChart3 },
-  { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
 export default function AdminSidebar() {

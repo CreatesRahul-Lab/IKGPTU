@@ -224,30 +224,7 @@ export default function TeacherDashboard() {
             </div>
             <div className="flex items-center gap-2">
               <NotificationCenter userType="teacher" />
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => router.push('/teacher/upload-marks')}
-                className="text-xs sm:text-sm"
-              >
-                Upload Marks
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => router.push('/teacher/attendance-history')}
-                className="text-xs sm:text-sm"
-              >
-                View History
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => signOut({ callbackUrl: '/login' })} 
-                className="text-xs sm:text-sm"
-              >
-                Logout
-              </Button>
+              
             </div>
           </div>
         </div>

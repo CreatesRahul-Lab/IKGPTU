@@ -117,14 +117,7 @@ export default function StudentDashboard() {
                   {session.user?.branch} - Sem {session.user?.semester}
                 </p>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => signOut({ callbackUrl: '/login' })}
-                className="text-xs sm:text-sm"
-              >
-                Logout
-              </Button>
+              
             </div>
           </div>
           <div className="mt-2 sm:hidden">
@@ -143,15 +136,7 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* Quick Actions */}
-        <div className="mb-6 sm:mb-8 flex flex-wrap gap-3 justify-end">
-          <Button onClick={() => router.push('/student/marks')} variant="outline" size="sm" className="sm:h-10">
-            View Marks
-          </Button>
-          <Button onClick={() => router.push('/student/leave/apply')} size="sm" className="sm:h-10">
-            Apply for Leave
-          </Button>
-        </div>
+        
 
         {/* Subject Cards */}
         <div>

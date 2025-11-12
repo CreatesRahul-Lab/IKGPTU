@@ -8,7 +8,6 @@ import {
   History, 
   Users,
   BookOpen,
-  FileText,
   LogOut,
   Menu,
   X
@@ -24,11 +23,10 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/teacher/dashboard', icon: LayoutDashboard },
-  { name: 'Upload Attendance', href: '/teacher/upload-attendance', icon: Upload },
+  { name: 'Upload Attendance', href: '/teacher/attendance-upload', icon: Upload },
   { name: 'Attendance History', href: '/teacher/attendance-history', icon: History },
   { name: 'Upload Marks', href: '/teacher/upload-marks', icon: BookOpen },
   { name: 'My Students', href: '/teacher/students', icon: Users },
-  { name: 'Leave Requests', href: '/teacher/leave-requests', icon: FileText },
 ];
 
 export default function TeacherSidebar() {

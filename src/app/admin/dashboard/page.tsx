@@ -9,11 +9,9 @@ import {
   Users, 
   UserCheck, 
   GraduationCap, 
-  BarChart3, 
-  FileText,
+  BarChart3,
   Calendar,
-  TrendingUp,
-  AlertCircle
+  TrendingUp
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -24,8 +22,6 @@ interface DashboardStats {
   overallAttendance: number;
   activeStudents: number;
   activeFaculty: number;
-  pendingLeaveRequests: number;
-  lowAttendanceStudents: number;
 }
 
 interface Activity {
@@ -48,8 +44,6 @@ export default function AdminDashboard() {
     overallAttendance: 0,
     activeStudents: 0,
     activeFaculty: 0,
-    pendingLeaveRequests: 0,
-    lowAttendanceStudents: 0,
   });
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -102,8 +96,7 @@ export default function AdminDashboard() {
         return <UserCheck className="h-4 w-4" />;
       case 'marks':
         return <BarChart3 className="h-4 w-4" />;
-      case 'leave':
-        return <FileText className="h-4 w-4" />;
+      
       default:
         return <Calendar className="h-4 w-4" />;
     }
@@ -115,8 +108,7 @@ export default function AdminDashboard() {
         return 'text-green-600 bg-green-50';
       case 'marks':
         return 'text-purple-600 bg-purple-50';
-      case 'leave':
-        return 'text-orange-600 bg-orange-50';
+      
       default:
         return 'text-gray-600 bg-gray-50';
     }
@@ -162,13 +154,7 @@ export default function AdminDashboard() {
                 Welcome back, {session?.user?.name}
               </p>
             </div>
-            <Button 
-              onClick={() => router.push('/')}
-              variant="outline"
-              className="min-h-[44px]"
-            >
-              Back to Home
-            </Button>
+            
           </div>
         </div>
       </div>
@@ -289,30 +275,6 @@ export default function AdminDashboard() {
             </Card>
           </Link>
 
-          {/* Leave Requests */}
-          <Link href="/admin/leave-requests">
-            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full flex flex-col">
-              <CardHeader>
-                <div className="flex items-center space-x-2">
-                  <FileText className="h-5 w-5 text-orange-600" />
-                  <CardTitle className="text-lg">Leave Requests</CardTitle>
-                </div>
-                <CardDescription>
-                  Approve or reject student leave applications
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col justify-end">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm text-muted-foreground">Pending:</span>
-                  <span className="text-2xl font-bold text-orange-600">
-                    {stats.pendingLeaveRequests}
-                  </span>
-                </div>
-                <Button className="w-full min-h-[44px]">Manage Requests</Button>
-              </CardContent>
-            </Card>
-          </Link>
-
           {/* Subject Management */}
           <Link href="/admin/subjects">
             <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full flex flex-col">
@@ -330,29 +292,6 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
           </Link>
-
-          {/* Low Attendance Alerts */}
-          <Card className="hover:shadow-lg transition-shadow border-orange-200 bg-orange-50 h-full flex flex-col">
-            <CardHeader>
-              <div className="flex items-center space-x-2">
-                <AlertCircle className="h-5 w-5 text-orange-600" />
-                <CardTitle className="text-lg">Attendance Alerts</CardTitle>
-              </div>
-              <CardDescription>
-                Students with attendance below 75%
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col justify-end">
-              <div className="text-3xl font-bold text-orange-600 mb-3">
-                {stats.lowAttendanceStudents}
-              </div>
-              <Link href="/admin/students?filter=low-attendance">
-                <Button variant="outline" className="w-full min-h-[44px] border-orange-300 hover:bg-orange-100">
-                  View Students
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Recent Activity Section */}
