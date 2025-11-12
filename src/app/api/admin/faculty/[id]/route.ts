@@ -9,16 +9,17 @@ export const dynamic = 'force-dynamic';
 // PUT update faculty
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireRole(['admin']);
     await connectDB();
 
+    const { id } = await params;
     const body = await req.json();
     const { name, email, password, isActive } = body;
 
-    const faculty = await Faculty.findById(params.id);
+    const faculty = await Faculty.findById(id);
     if (!faculty) {
       return NextResponse.json({ error: 'Faculty not found' }, { status: 404 });
     }
@@ -56,13 +57,14 @@ export async function PUT(
 // DELETE faculty
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireRole(['admin']);
     await connectDB();
 
-    const faculty = await Faculty.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const faculty = await Faculty.findByIdAndDelete(id);
     if (!faculty) {
       return NextResponse.json({ error: 'Faculty not found' }, { status: 404 });
     }

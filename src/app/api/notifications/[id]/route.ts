@@ -10,7 +10,7 @@ import Notification from '@/models/Notification';
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -20,9 +20,10 @@ export async function PATCH(
     }
 
     await connectDB();
+    const { id } = await params;
 
     const notification = await Notification.findOneAndUpdate(
-      { _id: params.id, userId: session.user.id },
+      { _id: id, userId: session.user.id },
       { isRead: true },
       { new: true }
     );
@@ -53,7 +54,7 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -63,9 +64,10 @@ export async function DELETE(
     }
 
     await connectDB();
+    const { id } = await params;
 
     const notification = await Notification.findOneAndDelete({
-      _id: params.id,
+      _id: id,
       userId: session.user.id,
     });
 

@@ -28,6 +28,16 @@ interface DashboardStats {
   lowAttendanceStudents: number;
 }
 
+interface Activity {
+  id: string;
+  type: 'attendance' | 'marks' | 'leave';
+  action: string;
+  description: string;
+  actor: string;
+  timestamp: Date;
+  details?: any;
+}
+
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -41,7 +51,9 @@ export default function AdminDashboard() {
     pendingLeaveRequests: 0,
     lowAttendanceStudents: 0,
   });
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activitiesLoading, setActivitiesLoading] = useState(true);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -51,6 +63,7 @@ export default function AdminDashboard() {
         router.push('/unauthorized');
       } else {
         fetchDashboardStats();
+        fetchRecentActivities();
       }
     }
   }, [status, session, router]);
@@ -67,6 +80,66 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchRecentActivities = async () => {
+    try {
+      const response = await fetch('/api/admin/activity');
+      if (response.ok) {
+        const data = await response.json();
+        setActivities(data.activities || []);
+      }
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+    } finally {
+      setActivitiesLoading(false);
+    }
+  };
+
+  const getActivityIcon = (type: string) => {
+    switch (type) {
+      case 'attendance':
+        return <UserCheck className="h-4 w-4" />;
+      case 'marks':
+        return <BarChart3 className="h-4 w-4" />;
+      case 'leave':
+        return <FileText className="h-4 w-4" />;
+      default:
+        return <Calendar className="h-4 w-4" />;
+    }
+  };
+
+  const getActivityColor = (type: string) => {
+    switch (type) {
+      case 'attendance':
+        return 'text-green-600 bg-green-50';
+      case 'marks':
+        return 'text-purple-600 bg-purple-50';
+      case 'leave':
+        return 'text-orange-600 bg-orange-50';
+      default:
+        return 'text-gray-600 bg-gray-50';
+    }
+  };
+
+  const formatTimestamp = (timestamp: Date) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    
+    return date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+    });
   };
 
   if (loading || status === 'loading') {
@@ -164,7 +237,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Student Management */}
           <Link href="/admin/students">
-            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full">
+            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full flex flex-col">
               <CardHeader>
                 <div className="flex items-center space-x-2">
                   <Users className="h-5 w-5 text-blue-600" />
@@ -174,7 +247,7 @@ export default function AdminDashboard() {
                   View, add, edit, and manage student accounts
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1 flex flex-col justify-end">
                 <Button className="w-full min-h-[44px]">Manage Students</Button>
               </CardContent>
             </Card>
@@ -182,7 +255,7 @@ export default function AdminDashboard() {
 
           {/* Faculty Management */}
           <Link href="/admin/faculty">
-            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full">
+            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full flex flex-col">
               <CardHeader>
                 <div className="flex items-center space-x-2">
                   <UserCheck className="h-5 w-5 text-green-600" />
@@ -192,7 +265,7 @@ export default function AdminDashboard() {
                   View, add, edit, and manage faculty accounts
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1 flex flex-col justify-end">
                 <Button className="w-full min-h-[44px]">Manage Faculty</Button>
               </CardContent>
             </Card>
@@ -200,7 +273,7 @@ export default function AdminDashboard() {
 
           {/* Attendance Reports */}
           <Link href="/admin/reports">
-            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full">
+            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full flex flex-col">
               <CardHeader>
                 <div className="flex items-center space-x-2">
                   <BarChart3 className="h-5 w-5 text-purple-600" />
@@ -210,7 +283,7 @@ export default function AdminDashboard() {
                   View detailed attendance reports and analytics
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1 flex flex-col justify-end">
                 <Button className="w-full min-h-[44px]">View Reports</Button>
               </CardContent>
             </Card>
@@ -218,7 +291,7 @@ export default function AdminDashboard() {
 
           {/* Leave Requests */}
           <Link href="/admin/leave-requests">
-            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full">
+            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full flex flex-col">
               <CardHeader>
                 <div className="flex items-center space-x-2">
                   <FileText className="h-5 w-5 text-orange-600" />
@@ -228,7 +301,7 @@ export default function AdminDashboard() {
                   Approve or reject student leave applications
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1 flex flex-col justify-end">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm text-muted-foreground">Pending:</span>
                   <span className="text-2xl font-bold text-orange-600">
@@ -242,7 +315,7 @@ export default function AdminDashboard() {
 
           {/* Subject Management */}
           <Link href="/admin/subjects">
-            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full">
+            <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer h-full flex flex-col">
               <CardHeader>
                 <div className="flex items-center space-x-2">
                   <GraduationCap className="h-5 w-5 text-indigo-600" />
@@ -252,14 +325,14 @@ export default function AdminDashboard() {
                   Manage subjects, courses, and curriculum
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1 flex flex-col justify-end">
                 <Button className="w-full min-h-[44px]">Manage Subjects</Button>
               </CardContent>
             </Card>
           </Link>
 
           {/* Low Attendance Alerts */}
-          <Card className="hover:shadow-lg transition-shadow border-orange-200 bg-orange-50">
+          <Card className="hover:shadow-lg transition-shadow border-orange-200 bg-orange-50 h-full flex flex-col">
             <CardHeader>
               <div className="flex items-center space-x-2">
                 <AlertCircle className="h-5 w-5 text-orange-600" />
@@ -269,7 +342,7 @@ export default function AdminDashboard() {
                 Students with attendance below 75%
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 flex flex-col justify-end">
               <div className="text-3xl font-bold text-orange-600 mb-3">
                 {stats.lowAttendanceStudents}
               </div>
@@ -282,7 +355,7 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        {/* Recent Activity Section - Placeholder */}
+        {/* Recent Activity Section */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -292,10 +365,43 @@ export default function AdminDashboard() {
             <CardDescription>Latest updates and actions across the system</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-8 text-muted-foreground">
-              <Calendar className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-              <p>Activity tracking coming soon...</p>
-            </div>
+            {activitiesLoading ? (
+              <div className="text-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="text-sm text-muted-foreground mt-3">Loading activities...</p>
+              </div>
+            ) : activities.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <Calendar className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                <p>No recent activities found</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {activities.map((activity) => (
+                  <div
+                    key={activity.id}
+                    className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <div className={`p-2 rounded-full ${getActivityColor(activity.type)}`}>
+                      {getActivityIcon(activity.type)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900">
+                        {activity.action}
+                      </p>
+                      <p className="text-sm text-gray-600 mt-0.5">
+                        {activity.description}
+                      </p>
+                      <div className="flex items-center mt-1 space-x-2 text-xs text-gray-500">
+                        <span>{activity.actor}</span>
+                        <span>•</span>
+                        <span>{formatTimestamp(activity.timestamp)}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

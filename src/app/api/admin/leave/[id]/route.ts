@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 // PUT update leave request status
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const admin = await requireRole(['admin']);
@@ -19,7 +19,8 @@ export async function PUT(
     const body = await req.json();
     const { status, reviewComments } = body;
 
-    const leaveRequest = await LeaveRequest.findById(params.id);
+    const { id } = await params;
+    const leaveRequest = await LeaveRequest.findById(id);
     if (!leaveRequest) {
       return NextResponse.json(
         { error: 'Leave request not found' },

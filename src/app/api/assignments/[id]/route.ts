@@ -9,13 +9,14 @@ export const dynamic = 'force-dynamic';
 // POST - Submit assignment (for students)
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireRole(['student']);
     await connectDB();
 
-    const assignment = await Assignment.findById(params.id);
+    const { id } = await params;
+    const assignment = await Assignment.findById(id);
     if (!assignment) {
       return NextResponse.json(
         { error: 'Assignment not found' },
@@ -61,7 +62,7 @@ export async function POST(
 // PATCH - Grade assignment (for teachers)
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireRole(['teacher', 'admin']);
@@ -70,7 +71,8 @@ export async function PATCH(
     const body = await req.json();
     const { studentId, obtainedMarks, feedback } = body;
 
-    const assignment = await Assignment.findById(params.id);
+    const { id } = await params;
+    const assignment = await Assignment.findById(id);
     if (!assignment) {
       return NextResponse.json(
         { error: 'Assignment not found' },

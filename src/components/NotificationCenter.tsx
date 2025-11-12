@@ -122,12 +122,12 @@ export default function NotificationCenter({ userType }: NotificationCenterProps
           setIsOpen(!isOpen);
           if (!isOpen) fetchNotifications();
         }}
-        className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+        className="relative p-2 hover:bg-gray-100 rounded-full transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
         aria-label="Notifications"
       >
         <Bell className="h-6 w-6 text-gray-700" />
         {unreadCount > 0 && (
-          <span className="absolute top-0 right-0 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+          <span className="absolute top-1 right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -143,17 +143,17 @@ export default function NotificationCenter({ userType }: NotificationCenterProps
           />
 
           {/* Dropdown Panel */}
-          <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[600px] overflow-hidden flex flex-col">
+          <div className="fixed sm:absolute right-0 sm:right-0 top-14 sm:top-auto sm:mt-2 left-0 sm:left-auto w-full sm:w-96 bg-white rounded-t-lg sm:rounded-lg shadow-xl border border-gray-200 z-50 max-h-[calc(100vh-56px)] sm:max-h-[600px] overflow-hidden flex flex-col">
             {/* Header */}
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div className="p-4 sm:p-4 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10">
               <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
               {unreadCount > 0 && (
                 <button
                   onClick={markAllAsRead}
-                  className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                  className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1 min-h-[44px] px-2"
                 >
                   <CheckCheck className="h-4 w-4" />
-                  Mark all read
+                  <span className="hidden sm:inline">Mark all read</span>
                 </button>
               )}
             </div>
@@ -176,28 +176,28 @@ export default function NotificationCenter({ userType }: NotificationCenterProps
                         !notification.isRead ? 'bg-blue-50' : ''
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
                             {!notification.isRead && (
-                              <span className="h-2 w-2 bg-blue-500 rounded-full" />
+                              <span className="h-2 w-2 bg-blue-500 rounded-full flex-shrink-0" />
                             )}
-                            <h4 className="font-semibold text-sm text-gray-900">
+                            <h4 className="font-semibold text-sm text-gray-900 break-words">
                               {notification.title}
                             </h4>
                           </div>
-                          <p className="text-sm text-gray-600 mb-2">
+                          <p className="text-sm text-gray-600 mb-2 break-words">
                             {notification.message}
                           </p>
                           <p className="text-xs text-gray-400">
                             {formatRelativeTime(notification.createdAt)}
                           </p>
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 flex-shrink-0">
                           {!notification.isRead && (
                             <button
                               onClick={() => markAsRead(notification._id)}
-                              className="p-1 hover:bg-gray-200 rounded"
+                              className="p-2 hover:bg-gray-200 rounded min-h-[44px] min-w-[44px] flex items-center justify-center"
                               title="Mark as read"
                             >
                               <Check className="h-4 w-4 text-gray-600" />
@@ -205,7 +205,7 @@ export default function NotificationCenter({ userType }: NotificationCenterProps
                           )}
                           <button
                             onClick={() => deleteNotification(notification._id)}
-                            className="p-1 hover:bg-gray-200 rounded"
+                            className="p-2 hover:bg-gray-200 rounded min-h-[44px] min-w-[44px] flex items-center justify-center"
                             title="Delete"
                           >
                             <X className="h-4 w-4 text-gray-600" />
@@ -220,10 +220,10 @@ export default function NotificationCenter({ userType }: NotificationCenterProps
 
             {/* Footer */}
             {notifications.length > 0 && (
-              <div className="p-3 border-t border-gray-200 text-center">
+              <div className="p-3 border-t border-gray-200 text-center bg-white">
                 <button
                   onClick={() => setPage(prev => prev + 1)}
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium min-h-[44px] px-4 w-full sm:w-auto"
                 >
                   Load more
                 </button>
