@@ -52,7 +52,7 @@ export default function AttendanceUploadPage() {
   const [success, setSuccess] = useState('');
 
   const branches = ['BTCS', 'BTAI', 'BBA', 'BCA'];
-  const semesters = ['3', '4', '5', '6', '7', '8'];
+  const semesters = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
   useEffect(() => {
     if (status === 'unauthenticated') {

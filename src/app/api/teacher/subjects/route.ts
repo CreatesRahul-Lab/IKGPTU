@@ -11,15 +11,36 @@ export async function GET(req: NextRequest) {
     const user = await requireRole(['teacher', 'admin']);
     await connectDB();
 
-    console.log('Fetching subjects for teacher:', user.id);
+    console.log('\n=== FETCHING SUBJECTS ===');
+    console.log('User ID:', user.id);
+    console.log('User Role:', user.role);
+    console.log('User Name:', user.name);
 
-    // Fetch only subjects assigned to this teacher
-    // Convert user.id string to ObjectId for comparison
-    const subjects = await Subject.find({
-      teacherId: new mongoose.Types.ObjectId(user.id),
-    }).sort({ branch: 1, semester: 1, courseCode: 1 });
+    let subjects;
 
-    console.log('Found subjects:', subjects.length);
+    if (user.role === 'admin') {
+      // Admin can see all subjects
+      subjects = await Subject.find({}).sort({ branch: 1, semester: 1, courseCode: 1 });
+      console.log('Admin: Fetched all subjects:', subjects.length);
+    } else {
+      // Teachers see ONLY their assigned subjects
+      // Convert user.id string to ObjectId for comparison
+      subjects = await Subject.find({
+        teacherId: new mongoose.Types.ObjectId(user.id),
+      }).sort({ branch: 1, semester: 1, courseCode: 1 });
+
+      console.log('Teacher: Found assigned subjects:', subjects.length);
+      if (subjects.length > 0) {
+        console.log('Assigned subjects:');
+        subjects.forEach((s) => {
+          console.log(`  - ${s.courseCode}: ${s.courseTitle} (${s.branch} Sem ${s.semester})`);
+        });
+      } else {
+        console.log('⚠️  No subjects assigned to this teacher');
+      }
+    }
+
+    console.log('=== END ===\n');
 
     return NextResponse.json({
       subjects,

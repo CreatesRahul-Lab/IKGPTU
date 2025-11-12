@@ -66,10 +66,15 @@ export default function CompileAttendancePage() {
 
   const fetchSubjects = async () => {
     try {
-      const response = await fetch(`/api/subjects?branch=${selectedBranch}&semester=${selectedSemester}`);
+      // Fetch only subjects assigned to this teacher
+      const response = await fetch('/api/teacher/subjects');
       if (response.ok) {
         const data = await response.json();
-        setSubjects(data.subjects || []);
+        // Filter by selected branch and semester
+        const filtered = (data.subjects || []).filter(
+          (s: Subject) => s.branch === selectedBranch && s.semester === parseInt(selectedSemester)
+        );
+        setSubjects(filtered);
       }
     } catch (err) {
       console.error('Failed to fetch subjects:', err);

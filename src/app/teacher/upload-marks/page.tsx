@@ -29,7 +29,9 @@ export default function UploadMarksPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [allSubjects, setAllSubjects] = useState<Subject[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
+  const [selectedSemester, setSelectedSemester] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [examType, setExamType] = useState<'MST-1' | 'MST-2' | 'Assignment'>('MST-1');
   const [examDate, setExamDate] = useState('');
@@ -50,10 +52,25 @@ export default function UploadMarksPage() {
       const response = await fetch('/api/teacher/subjects');
       if (response.ok) {
         const data = await response.json();
+        setAllSubjects(data.subjects || []);
         setSubjects(data.subjects || []);
       }
     } catch (err) {
       console.error('Fetch subjects error:', err);
+    }
+  };
+
+  const handleSemesterChange = (semester: string) => {
+    setSelectedSemester(semester);
+    setSelectedSubject('');
+    setStudents([]);
+    setMarks({});
+    
+    if (semester === '') {
+      setSubjects(allSubjects);
+    } else {
+      const filtered = allSubjects.filter(s => s.semester === parseInt(semester));
+      setSubjects(filtered);
     }
   };
 
@@ -185,7 +202,24 @@ export default function UploadMarksPage() {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Selection Section */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="semester">Semester</Label>
+                  <select
+                    id="semester"
+                    value={selectedSemester}
+                    onChange={(e) => handleSemesterChange(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">All Semesters</option>
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                      <option key={sem} value={sem}>
+                        Semester {sem}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="subject">Subject *</Label>
                   <select
@@ -198,7 +232,7 @@ export default function UploadMarksPage() {
                     <option value="">Select Subject</option>
                     {subjects.map((subject) => (
                       <option key={subject._id} value={subject._id}>
-                        {subject.courseCode} - {subject.courseTitle}
+                        {subject.courseCode} - {subject.courseTitle} ({subject.branch} Sem {subject.semester})
                       </option>
                     ))}
                   </select>

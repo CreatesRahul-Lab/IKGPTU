@@ -8,7 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "test:quick": "node test/quick-test.js",
+    "test:load": "node test/load-test.js",
+    "test:stress": "node test/stress-test.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

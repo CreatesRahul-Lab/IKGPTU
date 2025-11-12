@@ -4,6 +4,7 @@ import connectDB from '@/lib/db/mongodb';
 import Marks from '@/models/Marks';
 import Subject from '@/models/Subject';
 import Student from '@/models/Student';
+import { NotificationService } from '@/lib/notifications/notification-service';
 
 export const dynamic = 'force-dynamic';
 
@@ -82,6 +83,20 @@ export async function POST(req: NextRequest) {
 
         await newMarks.save();
         marksRecords.push(newMarks);
+      }
+
+      // Send notification to student
+      try {
+        await NotificationService.notifyMarksAssigned(
+          studentId,
+          subject.courseTitle,
+          obtainedMarks,
+          totalMarks,
+          examType
+        );
+      } catch (notifError) {
+        console.error('Failed to send notification to student:', studentId, notifError);
+        // Don't fail the entire request if notification fails
       }
     }
 
