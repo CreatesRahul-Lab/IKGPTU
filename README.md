@@ -215,19 +215,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Testing
 
-Run load tests to check system performance:
-
-```bash
-# Quick 30-second test
-npm run test:quick
-
-# Comprehensive 2-minute load test
-npm run test:load
-
-# Progressive stress test
-npm run test:stress
 ```
 
 ## Database Schema
@@ -388,10 +376,7 @@ MIT License - IK Gujral Punjab Technical University
 After running the seed scripts:
 
 ### Teacher Account
-- **Email**: `developmentmitar@gmail.com`
-- **Password**: `password123`
-- **Name**: Neeraj Mohan
-- **Role**: Teacher
+Run `npm run seed:teacher` to create a teacher account. The credentials will be displayed in the console output.
 
 ### Student Accounts
 Students need to register through the signup page.
@@ -423,7 +408,7 @@ Required variables in `.env`:
 
 ```env
 # MongoDB
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname
+MONGODB_URI=
 
 # NextAuth
 NEXTAUTH_URL=http://localhost:3000
