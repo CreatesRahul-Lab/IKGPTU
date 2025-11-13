@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 // PUT update student
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     await requireRole(['admin']);
@@ -18,7 +18,7 @@ export async function PUT(
     const body = await req.json();
     const { name, email, rollNo, branch, semester, password, isActive } = body;
 
-    const { id } = await params;
+    const { id } = params;
     const student = await Student.findById(id);
     if (!student) {
       return NextResponse.json({ error: 'Student not found' }, { status: 404 });
@@ -63,13 +63,13 @@ export async function PUT(
 // DELETE student
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     await requireRole(['admin']);
     await connectDB();
 
-    const { id } = await params;
+    const { id } = params;
     const student = await Student.findByIdAndDelete(id);
     if (!student) {
       return NextResponse.json({ error: 'Student not found' }, { status: 404 });
